@@ -9,11 +9,11 @@ package com.ulatina.diariofacil;
  *
  * @author blaken
  */
-public class Cliente extends Persona {
+public class Usuario extends Persona {
     private int cantCompras;
     private int ultimaOrden;
     
-    public Cliente(String nombre, String cedula, String direccion, String telefono, String email, String password) {
+    public Usuario(String nombre, String cedula, String direccion, String telefono, String email, String password) {
         super(nombre, cedula, direccion, telefono, email, password);
     }
     
