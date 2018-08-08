@@ -49,7 +49,7 @@ public class Orden implements IDescuento {
     private Calendar fecha;
     private Usuario usuario;
     private int consItem;
-    private List<Item> items = new ArrayList<>();//TODO Items
+    private List<Item> items = new ArrayList<>();
     private double subtotal;
     private double subDesc;
     private double impuesto;
