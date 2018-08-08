@@ -10,6 +10,7 @@ package com.ulatina.diariofacil;
  * @author blaken
  */
 public abstract class Persona {
+
     private String nombre;
     private String cedula;
     private String direccion;
@@ -73,8 +74,11 @@ public abstract class Persona {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
-    
-    
+
+    public String getRep() {
+        if (this instanceof PersonaJuridica) {
+            return ((PersonaJuridica) this).getRepresentante();
+        }
+        return "";
+    }
 }

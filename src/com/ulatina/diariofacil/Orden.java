@@ -80,7 +80,7 @@ public class Orden implements IDescuento {
         info[3] += usuario.getCedula();
         info[4] += usuario.getTelefono();
         info[5] += usuario.getDireccion();
-        //FIXME Repesentante info[6] += usuario.getRep();
+        info[6] += usuario.getRep();
 
         sb.append(formatRowArray(info, l));
         sb.append(div);
@@ -98,21 +98,21 @@ public class Orden implements IDescuento {
         sb.append(formatRowArray(totales, l));
         sb.append(div);
         sb.append(formatRow(MSJ, l));
-        //try {
-        //    getPromo(l);
-        //TODO ChiquitinasException } catch (ChiquitinasException e) {
-        //    sb.append(e.getMessage());
-        //}
+        try {
+            getPromo(l);
+        } catch (ChiquitinasException e) {
+            sb.append(e.getMessage());
+        }
         sb.append(div);
 
         return sb.toString();
     }
 
-//    private void getPromo(int l) throws ChiquitinasException {
-//        if (total > 10000) {
-//            throw new ChiquitinasException(formatRow(PROMO, l));
-//        }
-//    }
+    private void getPromo(int l) throws ChiquitinasException {
+        if (total > 10000) {
+            throw new ChiquitinasException(formatRow(PROMO, l));
+        }
+    }
 
     private String formatItems(List<Item> items) {
         StringBuilder sb = new StringBuilder();
