@@ -7,19 +7,22 @@ package com.ulatina.diariofacil;
 
 /**
  *
- * @author Diego
+ * @author 
  */
 public abstract class Producto {
 
-    private int numero;
+    private int id;
     private String nombre;
     private String descripcion;
     private double precio;
 
-    public Producto(String nombre, String descripcion, double precio) {
+    public Producto(int id, String nombre, String descripcion, double precio) {
+        
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
+        
     }
 
     public double checkDescuento() {
@@ -35,12 +38,12 @@ public abstract class Producto {
         return 0;
     }
 
-    public int getNumero() {
-        return numero;
+    public int getid() {
+        return id;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public void setid(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
