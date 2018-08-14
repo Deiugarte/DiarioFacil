@@ -15,16 +15,27 @@ public abstract class Producto {
     private String nombre;
     private String descripcion;
     private double precio;
+    private int inventario;
 
-    public Producto(int id, String nombre, String descripcion, double precio) {
+    public Producto(String nombre, String descripcion, double precio, int inventario) {
         
-        this.id = id;
+        this.id = getNumeroId() ;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        
+        this.inventario = inventario;
     }
 
+    public Producto() {
+    }
+
+    private static int idConsecutivo = 0;
+    //consecutivo para el combo
+    public static int getNumeroId(){
+        idConsecutivo++;
+        return idConsecutivo;
+    }
+    
     public double checkDescuento() {
         if (this instanceof IDescuento) {
 //            if (this instanceof Cucaracha) {
@@ -44,6 +55,14 @@ public abstract class Producto {
 
     public void setid(int id) {
         this.id = id;
+    }
+
+    public int getInventario() {
+        return inventario;
+    }
+
+    public void setInventario(int inventario) {
+        this.inventario = inventario;
     }
 
     public String getNombre() {
@@ -70,4 +89,10 @@ public abstract class Producto {
         this.precio = precio;
     }
 
+    @Override
+    public String toString() {
+        return "id : " + id + " | nombre : " + nombre + " | descripcion : " + descripcion + " | precio : " + precio;
+    }
+
+    
 }

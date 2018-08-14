@@ -13,8 +13,8 @@ import com.ulatina.diariofacil.Producto;
  * @author Andres
  */
 public class Computadora extends Producto implements IDescuento {
-    public Computadora (int id, String nombre, String descripcion, double precio){
-        super(id, nombre, descripcion, precio);
+    public Computadora (String nombre, String descripcion, double precio, int inventario){
+        super( nombre, descripcion, precio,inventario);
     }
 
     @Override

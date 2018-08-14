@@ -63,7 +63,84 @@ public class DiarioFacil {
             inicio();
         }
     }
+    
+    /**
+     * Muestra el menu del usuario
+     */
+    public void menuUsuario() {
+        Scanner scan = new Scanner(System.in);
 
+        System.out.println("Digite una opcion para continuar.");
+        System.out.println("1 - Ver promociones");
+        System.out.println("2 - Ver combos");
+        System.out.println("3 - Comprar");
+        System.out.println("4 - Ultima compra");
+        System.out.println("5 - Salir");
+
+        try {
+            switch (scan.nextInt()) {
+                case 1:
+                    obtenerPromociones();
+                    break;
+                case 2:
+                    verCombos();
+                    break;
+                case 3:
+                    registro();
+                    break;
+                case 4:
+                    System.exit(0);
+                    break;
+                case 5:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opcion no valida");
+                    menuUsuario();
+                    break;
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("El valor deber ser numerico.");
+            menuUsuario();
+        }
+    }
+
+        /**
+     * Muestra el menu del usuario
+     */
+    public void menuAdmin() {
+//        Scanner scan = new Scanner(System.in);
+//
+//        System.out.println("Bienvenido al sistema. Digite una opcion para continuar.");
+//        System.out.println("1 - Promociones");
+//        System.out.println("2 - Comprar");
+//        System.out.println("3 - Ultima compra");
+//        System.out.println("4 - Salir");
+//
+//        try {
+//            switch (scan.nextInt()) {
+//                case 1:
+//                    obtenerPromociones();
+//                    break;
+//                case 2:
+//                    olvideContra();
+//                    break;
+//                case 3:
+//                    registro();
+//                    break;
+//                case 4:
+//                    System.exit(0);
+//                    break;
+//                default:
+//                    System.out.println("Opcion no valida");
+//                    menuUsuario();
+//                    break;
+//            }
+//        } catch (InputMismatchException e) {
+//            System.out.println("El valor deber ser numerico.");
+//            menuUsuario();
+//        }
+    }
     /**
      * Le pide al usuario su cedula y contraseña si ambas son validas abre el
      * "Landing Page"
@@ -95,7 +172,23 @@ public class DiarioFacil {
             System.out.print("Contraseña: ");
             pass = scan.nextLine();
         }
+        if (esAdmin(cedula)) menuAdmin();
+        else menuUsuario();
         //TODO Ir al "Landing Page" correspondiente si es cliente regular, frequente o admin
+    }
+    
+    /**
+     * Muestra las Promociones basado en la lista de productos 
+     */
+    public void obtenerPromociones() {
+        System.out.println("---------------Promociones---------------");
+        productos.forEach(producto -> {
+            if (producto instanceof IDescuento) {
+                System.out.println(producto);
+            }
+        });
+        System.out.println("-------------------------------------");
+        menuUsuario();
     }
 
     /**
@@ -258,6 +351,14 @@ public class DiarioFacil {
         return false;
     }
 
+    private boolean esAdmin(String cedula) {
+        for (Persona u : usuarios) {
+            if (u.getCedula().equals(cedula)) {
+                return u instanceof Administrador;
+            }
+        }
+        return false;
+    }
     /**
      * Revisa si el parametro es igual a "salir" antes de comprarlo lo convierte
      * a minusculas.
@@ -266,10 +367,7 @@ public class DiarioFacil {
      * @return true si son iguales, de lo contario false
      */
     private boolean salir(String string) {
-        if (string.toLowerCase().equals("salir")) {
-            return true;
-        }
-        return false;
+        return string.toLowerCase().equals("salir");
     }
 
     public String getNombre() {
@@ -319,5 +417,21 @@ public class DiarioFacil {
     public void setProveedores(List<Proveedor> proveedores) {
         this.proveedores = proveedores;
     }
-
+    
+    public void addProducto(Producto p){
+        productos.add(p);
+    }
+    
+    public void addCombo(Combo c) {
+        combos.add(c);
+    }
+    
+    public void verCombos(){
+        System.out.println("---------------Combos---------------");
+        combos.forEach(combo -> {
+            System.out.println(combo);
+        });
+        menuUsuario();
+        System.out.println("-------------------------------------");
+    }
 }
