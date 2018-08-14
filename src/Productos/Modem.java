@@ -14,8 +14,8 @@ import com.ulatina.diariofacil.Producto;
  */
 
 public class Modem  extends Producto implements IDescuento {
-    public Modem (int id, String nombre, String descripcion, double precio){
-        super(id, nombre, descripcion, precio);
+    public Modem ( String nombre, String descripcion, double precio,  int inventario){
+        super( nombre, descripcion, precio, inventario);
     }
     @Override
     public double getDescuento() {

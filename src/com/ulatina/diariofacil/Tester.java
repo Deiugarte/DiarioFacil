@@ -1,9 +1,10 @@
+package com.ulatina.diariofacil;
+
 
 import Productos.Computadora;
 import Productos.Modem;
+import Productos.ProductoGenerico;
 import Productos.router;
-import com.ulatina.diariofacil.Combo;
-import com.ulatina.diariofacil.menuCombo;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,14 +14,19 @@ import com.ulatina.diariofacil.menuCombo;
 
 /**
  *
- * @author Andres
+ * @author Diego
  */
-public class testerCombo {
+public class Tester {
+
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
-        
-        menuCombo menu = new menuCombo("inicio");
-        menu.inicio();
-        
+        Producto p1 = new ProductoGenerico( "nombre", "desc", 100,10);
+        Producto p2 = new Computadora( "Dell", "meh", 1000,10);
+        DiarioFacil d = new DiarioFacil("Test");
+        d.addProducto(p1);
+        d.addProducto(p2);
         Combo cb = new Combo(0);
         Combo cb2 = new Combo(0);
         Combo cb3 = new Combo(0);
@@ -36,14 +42,12 @@ public class testerCombo {
         cb2.agregarProductos(mo1);
         cb3.agregarProductos(rout1);
         cb3.agregarProductos(mo1);
-        
-        cb.imprimirProductos();
-        cb2.imprimirProductos();
-        cb3.imprimirProductos();
-        
-        menu.escogerCombo();
-        
+        d.addCombo(cb);
+        d.addCombo(cb2);
+        d.addCombo(cb3);
+
+        d.inicio();
         
     }
-    //falta los descuentos, sacar el precio total bien
+    
 }

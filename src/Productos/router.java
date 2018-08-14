@@ -13,8 +13,8 @@ import com.ulatina.diariofacil.Producto;
  * @author Andres
  */
 public class router extends Producto implements IDescuento {
-    public router (int id, String nombre, String descripcion, double precio){
-        super(id, nombre, descripcion, precio);
+    public router ( String nombre, String descripcion, double precio,  int inventario){
+        super( nombre, descripcion, precio, inventario);
     }
 
     @Override

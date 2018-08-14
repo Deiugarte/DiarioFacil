@@ -12,25 +12,26 @@ import java.util.List;
  *
  * @author Diego
  */
-public class Combo {
+public class Combo extends Producto {
     
     private int consecutivo;
     private double precio;
     private List<Producto> lstProductos = new ArrayList<Producto>();
     private double TotalDescuento;
     
-    public Combo(){
-        
-    }
-    public Combo(double precio) {
-  
-        this.precio = precio;
-    }
+
     private static int numeroCombo = 0;
     //consecutivo para el combo
-    public static int NumeroCombo(){
+    public static int getNumeroCombo(){
         numeroCombo++;
         return numeroCombo;
+    }
+    public Combo(){
+        super();
+    }
+    public Combo(double precio) {
+        this.precio = precio;
+        this.consecutivo = getNumeroCombo();
     }
     public int getConsecutivo() {
         return consecutivo;
@@ -55,7 +56,7 @@ public class Combo {
     }
     
     public void imprimirProductos(){
-        System.out.println("Combo: " + NumeroCombo());
+        System.out.println("Combo: " + getNumeroCombo());
         for(Producto p: lstProductos){
             System.out.println(" ID: " + p.getid() 
                     + " Nombre: " + p.getNombre() 
@@ -75,4 +76,18 @@ public class Combo {
         return subtotal;
         
     }
+
+    @Override
+    public String toString() {
+        System.out.println("Combo: " + this.consecutivo);
+        lstProductos.forEach(producto -> {
+            System.out.println(" ID: " + producto.getid()
+                    + " Nombre: " + producto.getNombre() 
+                    + " Descripcion: " + producto.getDescripcion()); //" Precio: " + p.getPrecio() 
+        });
+        System.out.println("Precio del Combo: " + sacarPrecioCombo());
+        return "";
+    }
+    
+    
 }
