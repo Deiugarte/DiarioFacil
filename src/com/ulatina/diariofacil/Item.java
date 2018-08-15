@@ -20,7 +20,7 @@ public class Item {
         this.numero = numero;
         this.producto = producto;
         this.cantidad = cantidad;
-        //updateSubtotal();
+        updateSubtotal();
     }
 
     public int getNumero() {

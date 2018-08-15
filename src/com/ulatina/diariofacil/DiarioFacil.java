@@ -6,6 +6,7 @@
 package com.ulatina.diariofacil;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -22,6 +23,9 @@ public class DiarioFacil {
     private List<Usuario> usuarios = new ArrayList<>();
     private List<Combo> combos = new ArrayList<>();
     private List<Proveedor> proveedores = new ArrayList<>();
+
+    private int consPro;
+    private int consOrd;
 
     public DiarioFacil(String nombre) {
         this.nombre = nombre;
@@ -63,7 +67,7 @@ public class DiarioFacil {
             inicio();
         }
     }
-    
+
     /**
      * Muestra el menu del usuario
      */
@@ -105,7 +109,7 @@ public class DiarioFacil {
         }
     }
 
-        /**
+    /**
      * Muestra el menu del usuario
      */
     public void menuAdmin() {
@@ -141,6 +145,7 @@ public class DiarioFacil {
 //            menuUsuario();
 //        }
     }
+
     /**
      * Le pide al usuario su cedula y contraseña si ambas son validas abre el
      * "Landing Page"
@@ -172,13 +177,16 @@ public class DiarioFacil {
             System.out.print("Contraseña: ");
             pass = scan.nextLine();
         }
-        if (esAdmin(cedula)) menuAdmin();
-        else menuUsuario();
+        if (esAdmin(cedula)) {
+            menuAdmin();
+        } else {
+            menuUsuario();
+        }
         //TODO Ir al "Landing Page" correspondiente si es cliente regular, frequente o admin
     }
-    
+
     /**
-     * Muestra las Promociones basado en la lista de productos 
+     * Muestra las Promociones basado en la lista de productos
      */
     public void obtenerPromociones() {
         System.out.println("---------------Promociones---------------");
@@ -359,6 +367,7 @@ public class DiarioFacil {
         }
         return false;
     }
+
     /**
      * Revisa si el parametro es igual a "salir" antes de comprarlo lo convierte
      * a minusculas.
@@ -417,21 +426,63 @@ public class DiarioFacil {
     public void setProveedores(List<Proveedor> proveedores) {
         this.proveedores = proveedores;
     }
-    
-    public void addProducto(Producto p){
+
+    public void addProducto(Producto p) {
         productos.add(p);
     }
-    
+
     public void addCombo(Combo c) {
         combos.add(c);
     }
-    
-    public void verCombos(){
+
+    public void verCombos() {
         System.out.println("---------------Combos---------------");
         combos.forEach(combo -> {
             System.out.println(combo);
         });
         menuUsuario();
         System.out.println("-------------------------------------");
+    }
+
+    private int nextConsPro() {
+        return consPro++;
+    }
+
+    private int nextConsOrd() {
+        return consOrd++;
+    }
+
+    public void addOrden(Usuario u) {
+        ordenes.add(new Orden(nextConsOrd(), u));
+    }
+
+    public void listarOrdenes(String cedula) {
+        List<Orden> ordenesUsuario = new ArrayList<>();
+
+        for (Orden o : ordenes) {
+            if (o.getUsuario().getCedula().equals(cedula)) {
+                ordenesUsuario.add(o);
+            }
+        }
+
+        System.out.println("Ordenes del usuario:");
+        for (Orden o : ordenesUsuario) {
+            System.out.println("ID: " + o.getId() + " Fecha: " + formatFecha(o.getFecha()) + " Total: " + o.getTotal());
+        }
+    }
+
+    public void imprimirOrden(int i) {
+        for (Orden o : ordenes) {
+            if (o.getId() == i) {
+                System.out.println(o.toString());
+                break;
+            }
+        }
+    }
+    
+    private String formatFecha(Calendar fecha) {
+        return fecha.get(Calendar.DAY_OF_MONTH) + "/"
+                + fecha.get(Calendar.MONTH) + "/"
+                + fecha.get(Calendar.YEAR);
     }
 }

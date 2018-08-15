@@ -54,10 +54,10 @@ public class Orden implements IDescuento {
     private double impuesto;
     private double total;
 
-    public Orden(int numero, Usuario cliente) {
+    public Orden(int numero, Usuario usuario) {
         this.id = numero;
         this.fecha = Calendar.getInstance();
-        this.usuario = cliente;
+        this.usuario = usuario;
     }
 
     @Override
