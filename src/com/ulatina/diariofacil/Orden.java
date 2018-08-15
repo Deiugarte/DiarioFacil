@@ -31,8 +31,7 @@ public class Orden implements IDescuento {
         "Cliente: ",
         "Cedula: ",
         "Telefono: ",
-        "Direccion: ",
-        "Responsable: "
+        "Direccion: "
     };
 
     private static final String[] TOTALES = {
@@ -47,7 +46,7 @@ public class Orden implements IDescuento {
 
     private int id;
     private Calendar fecha;
-    private Usuario usuario;
+    private Persona usuario;
     private int consItem;
     private List<Item> items = new ArrayList<>();
     private double subtotal;
@@ -55,10 +54,11 @@ public class Orden implements IDescuento {
     private double impuesto;
     private double total;
 
-    public Orden(int numero, Usuario usuario) {
+    public Orden(int numero, Persona cliente) {
+
         this.id = numero;
         this.fecha = Calendar.getInstance();
-        this.usuario = usuario;
+        this.usuario = cliente;
     }
 
     @Override
@@ -80,7 +80,6 @@ public class Orden implements IDescuento {
         info[3] += usuario.getCedula();
         info[4] += usuario.getTelefono();
         info[5] += usuario.getDireccion();
-        info[6] += usuario.getRep();
 
         sb.append(formatRowArray(info, l));
         sb.append(div);
@@ -248,11 +247,11 @@ public class Orden implements IDescuento {
         this.fecha = fecha;
     }
 
-    public Usuario getUsuario() {
+    public Persona getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(Persona usuario) {
         this.usuario = usuario;
     }
 

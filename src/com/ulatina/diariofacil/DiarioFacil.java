@@ -5,6 +5,7 @@
  */
 package com.ulatina.diariofacil;
 
+import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.InputMismatchException;
@@ -23,6 +24,7 @@ public class DiarioFacil {
     private List<Usuario> usuarios = new ArrayList<>();
     private List<Combo> combos = new ArrayList<>();
     private List<Proveedor> proveedores = new ArrayList<>();
+    private Persona usuarioActual;
 
     private int consPro;
     private int consOrd;
@@ -90,10 +92,10 @@ public class DiarioFacil {
                     verCombos();
                     break;
                 case 3:
-                    registro();
+                    comprar();
                     break;
                 case 4:
-                    System.exit(0);
+                    verUltimaCompra();
                     break;
                 case 5:
                     System.exit(0);
@@ -177,6 +179,7 @@ public class DiarioFacil {
             System.out.print("Contraseña: ");
             pass = scan.nextLine();
         }
+        this.usuarioActual = getUsuarioActual(cedula);
         if (esAdmin(cedula)) {
             menuAdmin();
         } else {
@@ -379,6 +382,81 @@ public class DiarioFacil {
         return string.toLowerCase().equals("salir");
     }
 
+    private void comprar() {
+        Scanner scan = new Scanner(System.in);
+        String producto;
+        List<Item> items = new ArrayList<>();
+        while (true) {
+            System.out.println("Digite el id de producto que desea comprar, salir para cancelar la orden o comprar para generar la compra");
+            verProductos();
+            producto = scan.nextLine();
+            try {
+                if (salir(producto)) {
+                    salirCarrito(items);
+
+                } else if (producto.equals("comprar")) {
+                    comprarCarrito(items);
+
+                } else if (!existeProducto(parseInt(producto))) {
+                    System.out.println("Producto no valido");
+                } else {
+                    agregarProducto(producto, items);
+
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Debe de seleccionar alguna de las opciones anteriores");
+            }
+
+        }
+    }
+
+    private void agregarProducto(String producto, List<Item> items) throws NumberFormatException {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Cuantos productos desea:");
+        int cantidad = parseInt(scan.nextLine());
+        Producto p = obtenerProductoPorId(parseInt(producto));
+        if (cantidad <= p.getInventario()) {
+            p.setInventario(p.getInventario() - cantidad);
+            actualizarInventario(p);
+            Item item = new Item(cantidad, p, cantidad);
+            items.add(item);
+            System.out.println("Producto agregado: ");
+            System.out.println(item + "\n\n");
+        } else {
+            System.out.println("Lo sentimos actualmente nuestro inventario del producto es de " + p.getInventario());
+        }
+    }
+
+    private void comprarCarrito(List<Item> items) {
+        if (items.isEmpty()) {
+            System.out.println("Debe de añadir productos");
+        } else {
+            System.out.println("Se genera la compra");
+            generarOrden(items);
+        }
+    }
+
+    private void salirCarrito(List<Item> items) {
+        Scanner scan = new Scanner(System.in);
+        if (!items.isEmpty()) {
+            System.out.println("Tiene articulos en su carrito, desea salir? escriba salir para cancelar la comprar");
+            if (salir(scan.nextLine())) {
+                retornarInventario(items);
+                menuUsuario();
+            }
+        } else {
+            menuUsuario();
+        }
+    }
+
+    private void retornarInventario(List<Item> items) {
+        items.forEach(item -> {
+            Producto p = item.getProducto();
+            p.setInventario(p.getInventario() + item.getCantidad());
+            actualizarInventario(p);
+        });
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -444,6 +522,71 @@ public class DiarioFacil {
         System.out.println("-------------------------------------");
     }
 
+
+    public void verProductos() {
+        productos.forEach(producto -> {
+            System.out.println(producto);
+        });
+    }
+
+    private boolean existeProducto(int codigo) {
+        for (Producto producto : productos) {
+            if (producto.getid() == codigo) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Producto obtenerProductoPorId(int id) {
+        for (Producto producto : productos) {
+            if (producto.getid() == id) {
+                return producto;
+            }
+        }
+        return null;
+    }
+
+    private void actualizarInventario(Producto p) {
+        productos.remove(p);
+        productos.add(p);
+    }
+
+    private Persona getUsuarioActual(String cedula) {
+        for (Persona usuario : usuarios) {
+            if (usuario.getCedula().equals(cedula)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+    
+    private void actualizarUsuario(Usuario u) {
+        usuarios.remove(u);
+        usuarios.add(u);
+    }
+
+    private void generarOrden(List<Item> items) {
+        Orden orden = new Orden(ordenes.size(), this.usuarioActual);
+        items.forEach(item -> {
+            orden.addItem(item.getProducto(), item.getCantidad());
+        });
+        ordenes.add(orden);
+        System.out.println(orden);
+        System.out.println("Gracias por su compra");
+        ((Usuario) this.usuarioActual).setUltimaOrden(orden.getId());
+        actualizarUsuario((Usuario) this.usuarioActual);
+        menuUsuario();
+    }
+
+    private void verUltimaCompra() {
+        int ordenId = ((Usuario)this.usuarioActual).getUltimaOrden();
+        for (Orden orden : ordenes) {
+            if(orden.getId() == ordenId) System.out.println(orden);
+        }
+        menuUsuario();
+    }
+    
     private int nextConsPro() {
         return consPro++;
     }
