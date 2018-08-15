@@ -7,6 +7,7 @@ package com.ulatina.diariofacil;
 
 import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -24,6 +25,9 @@ public class DiarioFacil {
     private List<Combo> combos = new ArrayList<>();
     private List<Proveedor> proveedores = new ArrayList<>();
     private Persona usuarioActual;
+
+    private int consPro;
+    private int consOrd;
 
     public DiarioFacil(String nombre) {
         this.nombre = nombre;
@@ -518,6 +522,7 @@ public class DiarioFacil {
         System.out.println("-------------------------------------");
     }
 
+
     public void verProductos() {
         productos.forEach(producto -> {
             System.out.println(producto);
@@ -580,5 +585,47 @@ public class DiarioFacil {
             if(orden.getId() == ordenId) System.out.println(orden);
         }
         menuUsuario();
+    }
+    
+    private int nextConsPro() {
+        return consPro++;
+    }
+
+    private int nextConsOrd() {
+        return consOrd++;
+    }
+
+    public void addOrden(Usuario u) {
+        ordenes.add(new Orden(nextConsOrd(), u));
+    }
+
+    public void listarOrdenes(String cedula) {
+        List<Orden> ordenesUsuario = new ArrayList<>();
+
+        for (Orden o : ordenes) {
+            if (o.getUsuario().getCedula().equals(cedula)) {
+                ordenesUsuario.add(o);
+            }
+        }
+
+        System.out.println("Ordenes del usuario:");
+        for (Orden o : ordenesUsuario) {
+            System.out.println("ID: " + o.getId() + " Fecha: " + formatFecha(o.getFecha()) + " Total: " + o.getTotal());
+        }
+    }
+
+    public void imprimirOrden(int i) {
+        for (Orden o : ordenes) {
+            if (o.getId() == i) {
+                System.out.println(o.toString());
+                break;
+            }
+        }
+    }
+    
+    private String formatFecha(Calendar fecha) {
+        return fecha.get(Calendar.DAY_OF_MONTH) + "/"
+                + fecha.get(Calendar.MONTH) + "/"
+                + fecha.get(Calendar.YEAR);
     }
 }
