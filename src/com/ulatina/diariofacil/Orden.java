@@ -6,6 +6,7 @@
 package com.ulatina.diariofacil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class Orden implements IDescuento {
 
-    private final String[] COLUMNS = {
+    private static final String[] COLUMNS = {
         " No. ",
         " Cant. ",
         "     Descripcion     ",
@@ -24,7 +25,7 @@ public class Orden implements IDescuento {
         " Subtotal "
     };
 
-    private final String[] INFO = {
+    private static String[] INFO = {
         "No. Orden: ",
         "Fecha : ",
         "Cliente: ",
@@ -34,7 +35,7 @@ public class Orden implements IDescuento {
         "Responsable: "
     };
 
-    private final String[] TOTALES = {
+    private static final String[] TOTALES = {
         "Subtotal: ",
         "Descuento: ",
         "Impuesto: ",
@@ -70,7 +71,7 @@ public class Orden implements IDescuento {
 
         sb.append(div);
 
-        String[] info = INFO;
+        String[] info = Arrays.copyOf(INFO, INFO.length);
         info[0] += id;
         info[1] += fecha.get(Calendar.DAY_OF_MONTH) + "/"
                 + fecha.get(Calendar.MONTH) + "/"
@@ -88,7 +89,7 @@ public class Orden implements IDescuento {
         sb.append(formatItems(items));
         sb.append(div);
 
-        String[] totales = TOTALES;
+        String[] totales = Arrays.copyOf(TOTALES, TOTALES.length);
         totales[0] += subDesc;
         totales[1] += getDescuento() * 100 + "%";
         totales[2] += impuesto;

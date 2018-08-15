@@ -38,6 +38,8 @@ public class TesterOrden {
         
         d.listarOrdenes("123");
         d.imprimirOrden(1);
+        d.imprimirOrden(0);
+        d.imprimirOrden(1);
     }
 
 }
