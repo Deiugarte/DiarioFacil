@@ -53,4 +53,10 @@ public class Item {
         subtotal = producto.getPrecio() * cantidad;
     }
 
+    @Override
+    public String toString() {
+        return "producto: " + producto.getNombre() + " cantidad : " + cantidad + " subtotal :" + producto.getPrecio() * cantidad;
+    }
+
+    
 }

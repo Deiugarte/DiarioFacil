@@ -16,5 +16,21 @@ public class Usuario extends Persona {
     public Usuario(String nombre, String cedula, String direccion, String telefono, String email, String password) {
         super(nombre, cedula, direccion, telefono, email, password);
     }
+
+    public int getCantCompras() {
+        return cantCompras;
+    }
+
+    public void setCantCompras(int cantCompras) {
+        this.cantCompras = cantCompras;
+    }
+
+    public int getUltimaOrden() {
+        return ultimaOrden;
+    }
+
+    public void setUltimaOrden(int ultimaOrden) {
+        this.ultimaOrden = ultimaOrden;
+    }
     
 }
