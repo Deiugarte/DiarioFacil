@@ -19,13 +19,14 @@ public class Combo extends Producto {
     private List<Producto> lstProductos = new ArrayList<Producto>();
     private double TotalDescuento;
     
-
-    private static int numeroCombo = 0;
+    // daba error si ponia 0 
+    private static int numeroCombo = -3;
     //consecutivo para el combo
     public static int getNumeroCombo(){
-        numeroCombo++;
+        numeroCombo = numeroCombo + 1;
         return numeroCombo;
     }
+    
     public Combo(){
         super();
     }
@@ -63,7 +64,7 @@ public class Combo extends Producto {
                     + " Descripcion: " + p.getDescripcion()); //" Precio: " + p.getPrecio() 
                     
         }
-        System.out.println("Precio del Combo: " + sacarPrecioCombo());
+        //System.out.println("Precio del Combo: " + sacarPrecioCombo());
     }
     public double sacarPrecioCombo(){
         double subtotal = 0;
