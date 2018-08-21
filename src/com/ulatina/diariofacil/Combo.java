@@ -65,19 +65,7 @@ public class Combo extends Producto {
                     
         }
     }
-    public double sacarPrecioCombo(){
-        double subtotal = 0;
-        double newTotal = 0;
-        for(Producto p: lstProductos){
-            subtotal =  p.getPrecio();
-            if (subtotal > 0){
-                newTotal = subtotal + p.getPrecio();      
-            }
-        }
-        return newTotal;
-        //hay que arreglar el precio del combo 
-    }
-
+    
     @Override
     public String toString() {
         System.out.println("Combo: " + this.consecutivo);
@@ -86,7 +74,7 @@ public class Combo extends Producto {
                     + " Nombre: " + producto.getNombre() 
                     + " Descripcion: " + producto.getDescripcion());  
         });
-        System.out.println("Precio del Combo: " + sacarPrecioCombo());
+        System.out.println("Precio del Combo: " + precio);
         return "";
     }
     

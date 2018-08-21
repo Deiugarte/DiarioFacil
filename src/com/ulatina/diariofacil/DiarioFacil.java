@@ -144,7 +144,7 @@ public class DiarioFacil {
                     obtenerPromociones();
                     break;
                 case 2:
-                    menuCombo();
+                    verCombos();
                     break;
                 case 3:
                     listarOrdenes(usuarioActual.getCedula());
@@ -157,7 +157,8 @@ public class DiarioFacil {
                     verUltimaCompra();
                     break;
                 case 6:
-                    new MantenimientoCliente().mantenimientoInicio(usuarios);
+                     mantenimientoInicio(usuarios);
+                    //new MantenimientoCliente().mantenimientoInicio(usuarios);
                     menuAdmin();
                     break;
                 case 7:
@@ -707,6 +708,132 @@ public class DiarioFacil {
 
     public void addOrden(Usuario u) {
         ordenes.add(new Orden(nextConsOrd(), u));
+    }
+    
+    //mant cliente
+        public void mantenimientoInicio(List<Persona> usuarios) {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Digite 1 Buscar el cliente");
+        System.out.println("Digite 2 para salir");
+
+        try {
+            switch (scan.nextInt()) {
+                case 1:
+                    buscarCliente(usuarios);
+                    break;
+                case 2:
+                    menuAdmin();
+                    break;
+                default:
+                    System.out.println("Opcion no valida");
+                    mantenimientoInicio(usuarios);
+                    break;
+            }
+
+        } catch (InputMismatchException e) {
+            System.out.println("El valor deber ser numerico.");
+            mantenimientoInicio(usuarios);
+        }
+    }
+
+    //modifica al cliente o lo elimina
+    public void modificarCliente(List<Persona> usuarios, Persona u) {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("1-Cambiar Nombre");
+        System.out.println("2-Cambiar Cedula");
+        System.out.println("3-Cambiar Direccion");
+        System.out.println("4-Cambiar Telefono");
+        System.out.println("5-Cambiar Email");
+        System.out.println("6-eliminar el usuario");
+
+        int opcion = scan.nextInt();
+        scan.nextLine();
+        try {
+            switch (opcion) {
+                case 1:
+                    u.setNombre(scan.nextLine());
+                    break;
+                case 2:
+                    u.setCedula(scan.nextLine());
+                    break;
+                case 3:
+                    u.setDireccion(scan.nextLine());
+                    break;
+                case 4:
+                    u.setTelefono(scan.nextLine());
+                    break;
+                case 5:
+                    u.setEmail(scan.nextLine());
+                    break;
+                case 6:
+                    eliminarCliente(usuarios, u);
+                    break;
+                default:
+                    System.out.println("Opcion no valida");
+                    mantenimientoInicio(usuarios);
+                    break;
+            }
+
+        } catch (InputMismatchException e) {
+            System.out.println("El valor deber ser numerico.");
+            mantenimientoInicio(usuarios);
+        }
+
+        System.out.println(" Nombre: " + u.getNombre()
+                + " Direccion: " + u.getDireccion()
+                + " Telefono: " + u.getTelefono()
+                + " Email: " + u.getEmail());
+        mantenimientoInicio(usuarios);
+
+    }
+
+    //elimina al cliente
+    public void eliminarCliente(List<Persona> usuarios, Persona u) {
+        usuarios.remove(u);
+        System.out.println("Este Usuario ha sido borrado");
+    }
+    //busca al cliente
+
+    public void buscarCliente(List<Persona> usuarios) {
+
+        for (Persona u : usuarios) {
+            System.out.println(
+                    " Nombre: " + u.getNombre()
+                    + " Cedula: " + u.getCedula()
+                    + " Direccion: " + u.getDireccion()
+                    + " Telefono: " + u.getTelefono()
+                    + " Email: " + u.getEmail());
+        }
+
+        Persona usuarioSelect = seleccionarCliente(usuarios);
+        //agarra el usuario y si no es nulo abre el metodo modificarCliente
+        if (usuarioSelect != null) {
+            modificarCliente(usuarios, usuarioSelect);
+        }
+    }
+
+    //selecciona al cliente y lo muestra
+    public Persona seleccionarCliente(List<Persona> usuarios) {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Digite la cedula del cliente");
+        String cedula = scan.nextLine();
+
+        for (Persona u : usuarios) {
+            if (u.getCedula().equals(cedula)) {
+                System.out.println(" Nombre: " + u.getNombre()
+                        + " Direccion: " + u.getDireccion()
+                        + " Telefono: " + u.getTelefono()
+                        + " Email: " + u.getEmail());
+            } else {
+                System.out.println("cedula no encontrada o no existente!");
+                seleccionarCliente(usuarios);
+            }
+            return u;
+        }
+        return null;
     }
 
     public void listarOrdenes(String cedula) {
