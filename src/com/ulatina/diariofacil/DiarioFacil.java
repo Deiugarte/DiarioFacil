@@ -143,7 +143,7 @@ public class DiarioFacil {
                     obtenerPromociones();
                     break;
                 case 2:
-                    verCombos();
+                    menuCombo();
                     break;
                 case 3:
                     listarOrdenes(usuarioActual.getCedula());
