@@ -21,7 +21,7 @@ public class DiarioFacil {
     private String nombre;
     private List<Producto> productos = new ArrayList<>();
     private List<Orden> ordenes = new ArrayList<>();
-    private List<Usuario> usuarios = new ArrayList<>();
+    private List<Persona> usuarios = new ArrayList<>();
     private List<Combo> combos = new ArrayList<>();
     private List<Proveedor> proveedores = new ArrayList<>();
     private Persona usuarioActual;
@@ -102,50 +102,73 @@ public class DiarioFacil {
                     break;
                 default:
                     System.out.println("Opcion no valida");
-                    menuUsuario();
+                    if (esAdmin(usuarioActual.getCedula())) {
+                        menuAdmin();
+                    } else {
+                        menuUsuario();
+                    }
                     break;
             }
         } catch (InputMismatchException e) {
             System.out.println("El valor deber ser numerico.");
-            menuUsuario();
+            if (esAdmin(usuarioActual.getCedula())) {
+                menuAdmin();
+            } else {
+                menuUsuario();
+            }
         }
     }
 
-    /**
-     * Muestra el menu del usuario
-     */
     public void menuAdmin() {
-//        Scanner scan = new Scanner(System.in);
-//
-//        System.out.println("Bienvenido al sistema. Digite una opcion para continuar.");
-//        System.out.println("1 - Promociones");
-//        System.out.println("2 - Comprar");
-//        System.out.println("3 - Ultima compra");
-//        System.out.println("4 - Salir");
-//
-//        try {
-//            switch (scan.nextInt()) {
-//                case 1:
-//                    obtenerPromociones();
-//                    break;
-//                case 2:
-//                    olvideContra();
-//                    break;
-//                case 3:
-//                    registro();
-//                    break;
-//                case 4:
-//                    System.exit(0);
-//                    break;
-//                default:
-//                    System.out.println("Opcion no valida");
-//                    menuUsuario();
-//                    break;
-//            }
-//        } catch (InputMismatchException e) {
-//            System.out.println("El valor deber ser numerico.");
-//            menuUsuario();
-//        }
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Digite una opcion para continuar.");
+        System.out.println("1 - Ver promociones");
+        System.out.println("2 - Ver combos");
+        System.out.println("3 - Comprar");
+        System.out.println("4 - Ultima compra");
+        System.out.println("5 - Mantenimiento usuarios");
+        System.out.println("6 - Mantenimiento productos");
+        System.out.println("7 - Salir");
+
+        try {
+            switch (scan.nextInt()) {
+                case 1:
+                    obtenerPromociones();
+                    break;
+                case 2:
+                    verCombos();
+                    break;
+                case 3:
+                    comprar();
+                    break;
+                case 4:
+                    verUltimaCompra();
+                    break;
+                case 5:
+                    new MantenimientoCliente().mantenimientoInicio(usuarios);
+                    menuAdmin();
+                    break;
+                case 6:
+                    MantenimientoCliente.mantenimientoProducto(productos);
+                    menuAdmin();
+                    break;
+                case 7:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opcion no valida");
+                    if (esAdmin(usuarioActual.getCedula())) {
+                        menuAdmin();
+                    } else {
+                        menuUsuario();
+                    }
+                    break;
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("El valor deber ser numerico.");
+            menuAdmin();
+        }
     }
 
     /**
@@ -185,7 +208,6 @@ public class DiarioFacil {
         } else {
             menuUsuario();
         }
-        //TODO Ir al "Landing Page" correspondiente si es cliente regular, frequente o admin
     }
 
     /**
@@ -199,7 +221,11 @@ public class DiarioFacil {
             }
         });
         System.out.println("-------------------------------------");
-        menuUsuario();
+        if (esAdmin(usuarioActual.getCedula())) {
+            menuAdmin();
+        } else {
+            menuUsuario();
+        }
     }
 
     /**
@@ -207,7 +233,7 @@ public class DiarioFacil {
      */
     public void olvideContra() {
         Scanner scan = new Scanner(System.in);
-        Usuario user = null;
+        Persona user = null;
         String cedula;
         String direccion;
         String password;
@@ -222,7 +248,7 @@ public class DiarioFacil {
                 return;
             }
 
-            for (Usuario u : usuarios) {
+            for (Persona u : usuarios) {
                 if (u.getCedula().equals(cedula)) {
                     user = u;
                     break;
@@ -354,7 +380,7 @@ public class DiarioFacil {
      * incorrecta.
      */
     private boolean verificarCredenciales(String cedula, String password) {
-        for (Usuario u : usuarios) {
+        for (Persona u : usuarios) {
             if (u.getCedula().equals(cedula)) {
                 return u.getPassword().equals(password);
             }
@@ -442,10 +468,18 @@ public class DiarioFacil {
             System.out.println("Tiene articulos en su carrito, desea salir? escriba salir para cancelar la comprar");
             if (salir(scan.nextLine())) {
                 retornarInventario(items);
-                menuUsuario();
+                if (esAdmin(usuarioActual.getCedula())) {
+                    menuAdmin();
+                } else {
+                    menuUsuario();
+                }
             }
         } else {
-            menuUsuario();
+            if (esAdmin(usuarioActual.getCedula())) {
+                menuAdmin();
+            } else {
+                menuUsuario();
+            }
         }
     }
 
@@ -481,11 +515,11 @@ public class DiarioFacil {
         this.ordenes = ordenes;
     }
 
-    public List<Usuario> getUsuarios() {
+    public List<Persona> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(List<Usuario> usuarios) {
+    public void setUsuarios(List<Persona> usuarios) {
         this.usuarios = usuarios;
     }
 
@@ -518,10 +552,13 @@ public class DiarioFacil {
         combos.forEach(combo -> {
             System.out.println(combo);
         });
-        menuUsuario();
+        if (esAdmin(usuarioActual.getCedula())) {
+            menuAdmin();
+        } else {
+            menuUsuario();
+        }
         System.out.println("-------------------------------------");
     }
-
 
     public void verProductos() {
         productos.forEach(producto -> {
@@ -560,7 +597,7 @@ public class DiarioFacil {
         }
         return null;
     }
-    
+
     private void actualizarUsuario(Usuario u) {
         usuarios.remove(u);
         usuarios.add(u);
@@ -576,17 +613,27 @@ public class DiarioFacil {
         System.out.println("Gracias por su compra");
         ((Usuario) this.usuarioActual).setUltimaOrden(orden.getId());
         actualizarUsuario((Usuario) this.usuarioActual);
-        menuUsuario();
+        if (esAdmin(usuarioActual.getCedula())) {
+            menuAdmin();
+        } else {
+            menuUsuario();
+        }
     }
 
     private void verUltimaCompra() {
-        int ordenId = ((Usuario)this.usuarioActual).getUltimaOrden();
+        int ordenId = ((Usuario) this.usuarioActual).getUltimaOrden();
         for (Orden orden : ordenes) {
-            if(orden.getId() == ordenId) System.out.println(orden);
+            if (orden.getId() == ordenId) {
+                System.out.println(orden);
+            }
         }
-        menuUsuario();
+        if (esAdmin(usuarioActual.getCedula())) {
+            menuAdmin();
+        } else {
+            menuUsuario();
+        }
     }
-    
+
     private int nextConsPro() {
         return consPro++;
     }
@@ -622,7 +669,7 @@ public class DiarioFacil {
             }
         }
     }
-    
+
     private String formatFecha(Calendar fecha) {
         return fecha.get(Calendar.DAY_OF_MONTH) + "/"
                 + fecha.get(Calendar.MONTH) + "/"

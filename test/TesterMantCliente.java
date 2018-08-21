@@ -22,10 +22,10 @@ public class TesterMantCliente {
         
         MantenimientoCliente mantCliente = new MantenimientoCliente();
         
-        mantCliente.agregarUsuarios(a1);
-        mantCliente.agregarUsuarios(a2);
-        
-        mantCliente.mantenimientoInicio();
+//        mantCliente.agregarUsuarios(a1);
+//        mantCliente.agregarUsuarios(a2);
+//        
+//        mantCliente.mantenimientoInicio();
         
         
     }
