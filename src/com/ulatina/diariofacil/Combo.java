@@ -20,10 +20,10 @@ public class Combo extends Producto {
     private double TotalDescuento;
     
     // daba error si ponia 0 
-    private static int numeroCombo = -3;
+    private static int numeroCombo = 0;
     //consecutivo para el combo
     public static int getNumeroCombo(){
-        numeroCombo = numeroCombo + 1;
+        numeroCombo++;
         return numeroCombo;
     }
     
@@ -61,21 +61,21 @@ public class Combo extends Producto {
         for(Producto p: lstProductos){
             System.out.println(" ID: " + p.getid() 
                     + " Nombre: " + p.getNombre() 
-                    + " Descripcion: " + p.getDescripcion()); //" Precio: " + p.getPrecio() 
+                    + " Descripcion: " + p.getDescripcion()); 
                     
         }
-        //System.out.println("Precio del Combo: " + sacarPrecioCombo());
     }
     public double sacarPrecioCombo(){
         double subtotal = 0;
+        double newTotal = 0;
         for(Producto p: lstProductos){
-           //arreglar el precio del subtotal y poner el descuento al total
-            subtotal = p.getPrecio();
-            TotalDescuento = subtotal + TotalDescuento;
-            
+            subtotal =  p.getPrecio();
+            if (subtotal > 0){
+                newTotal = subtotal + p.getPrecio();      
+            }
         }
-        return subtotal;
-        
+        return newTotal;
+        //hay que arreglar el precio del combo 
     }
 
     @Override
@@ -84,7 +84,7 @@ public class Combo extends Producto {
         lstProductos.forEach(producto -> {
             System.out.println(" ID: " + producto.getid()
                     + " Nombre: " + producto.getNombre() 
-                    + " Descripcion: " + producto.getDescripcion()); //" Precio: " + p.getPrecio() 
+                    + " Descripcion: " + producto.getDescripcion());  
         });
         System.out.println("Precio del Combo: " + sacarPrecioCombo());
         return "";

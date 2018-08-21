@@ -89,7 +89,7 @@ public class DiarioFacil {
                     obtenerPromociones();
                     break;
                 case 2:
-                    verCombos();
+                    menuCombo();
                     break;
                 case 3:
                     comprar();
@@ -546,7 +546,7 @@ public class DiarioFacil {
     public void addCombo(Combo c) {
         combos.add(c);
     }
-
+    //este verCombos no se sabe su procedencia 
     public void verCombos() {
         System.out.println("---------------Combos---------------");
         combos.forEach(combo -> {
@@ -559,6 +559,45 @@ public class DiarioFacil {
         }
         System.out.println("-------------------------------------");
     }
+    //menu del combo donde se puede ver y escoger todos los combos que hay
+    public void menuCombo(){
+        Scanner scan = new Scanner(System.in);
+        combos.forEach(combo -> {
+            System.out.println(combo);
+        });
+        System.out.println("----------------------------------");
+        System.out.println("----------------------------------");
+        System.out.println("Escoja un combo de las 3 opciones");
+        System.out.println("Digite 4 para salir");
+        
+        try {
+            switch (scan.nextInt()){
+                case 1:
+                    System.out.println("Escogio el combo 1");
+                    menuUsuario();
+                    break;
+                case 2:
+                    System.out.println("Escogio el combo 2");
+                    menuUsuario();
+                    break;
+                case 3:
+                    System.out.println("Escogio el combo 3'");
+                    menuUsuario();
+                    break;
+                case 4:
+                    menuUsuario();
+                    break;
+                default:
+                    System.out.println("Opcion no valida");
+                    menuCombo();
+                    break;
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("El valor deber ser numerico.");
+            menuCombo();
+        }
+    }
+
 
     public void verProductos() {
         productos.forEach(producto -> {
