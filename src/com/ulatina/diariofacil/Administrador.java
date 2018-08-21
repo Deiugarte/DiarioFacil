@@ -9,7 +9,7 @@ package com.ulatina.diariofacil;
  *
  * @author blaken
  */
-public class Administrador extends Persona {
+public class Administrador extends Usuario {
     
     public Administrador(String nombre, String cedula, String direccion, String telefono, String email, String password) {
         super(nombre, cedula, direccion, telefono, email, password);
