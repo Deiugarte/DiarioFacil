@@ -119,7 +119,6 @@ public class MantenimientoProveedor {
                 proveedores.get(proveedor-1).setTelefono(telefono);
                 break;
         }
-        Inicio();
     }
 
     public void eliminarProveedor(List<Proveedor> proveedores) {

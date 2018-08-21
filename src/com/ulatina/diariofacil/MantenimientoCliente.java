@@ -2,9 +2,10 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+*/
 package com.ulatina.diariofacil;
 
+import Productos.ProductoGenerico;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Scanner;
  *
  * @author Andres
  */
+
 public class MantenimientoCliente {
 
 //    private List<Persona> usuarios = new ArrayList<>();
@@ -31,7 +33,7 @@ public class MantenimientoCliente {
 //    }
     public MantenimientoCliente() {
     }
-
+/*
     //inicio del mantenimiento
     public void mantenimientoInicio(List<Persona> usuarios) {
         Scanner scan = new Scanner(System.in);
@@ -46,6 +48,7 @@ public class MantenimientoCliente {
                     break;
                 case 2:
                     System.exit(0);
+                    
                     break;
                 default:
                     System.out.println("Opcion no valida");
@@ -157,7 +160,7 @@ public class MantenimientoCliente {
         }
         return null;
     }
-
+*/
     public static void mantenimientoProducto(List<Producto> productos) {
         Scanner scan = new Scanner(System.in);
         Producto p;
@@ -171,7 +174,7 @@ public class MantenimientoCliente {
             switch (scan.nextInt()) {
 
                 case 1:
-                    agregarProducto();
+                    agregarProducto(productos);
                     break;
                 case 2:
                     p = selectProductos(productos);
@@ -232,11 +235,12 @@ public class MantenimientoCliente {
         return null;
     }
 
-    private static void agregarProducto() {
+    private static void agregarProducto(List<Producto> productos) {
         Scanner scan = new Scanner(System.in);
         String nombre;
         int precio;
         String descripcion;
+        int stock;
 
         System.out.println("Nombre del producto que deseas agregar");
         nombre = scan.nextLine();
@@ -244,35 +248,35 @@ public class MantenimientoCliente {
         precio = scan.nextInt();
         System.out.println("Descripcion del producto que desea agregar");
         descripcion = scan.next();
+        System.out.println("Stock del producto que desea agregar");
+        stock = scan.nextInt();
 
-        System.out.println("Producto modificado");
+        productos.add(new ProductoGenerico(nombre, descripcion, precio, stock));
+
+        System.out.println("Producto creado");
     }
 
     private static void modificarProducto(List<Producto> productos, Producto p) {
         Scanner scan = new Scanner(System.in);
 
-        String nombre;
-        int precio;
-        String descripcion;
-
         System.out.println("1 - Modificar de nombre producto");
-        nombre = scan.nextLine();
         System.out.println("2 - Modificar de precio producto");
-        precio = scan.nextInt();
         System.out.println("3 - Modificar de descripcion producto");
-        descripcion = scan.next();
 
         int opcion = scan.nextInt();
         scan.nextLine();
         try {
             switch (opcion) {
                 case 1:
+                    System.out.print("Nombre: ");
                     p.setNombre(scan.nextLine());
                     break;
                 case 2:
+                    System.out.print("Precio: ");
                     p.setPrecio(scan.nextInt());
                     break;
                 case 3:
+                    System.out.print("Descripcion: ");
                     p.setDescripcion(scan.next());
                     break;
             }
@@ -300,3 +304,4 @@ public class MantenimientoCliente {
     }
 
 }
+ 
