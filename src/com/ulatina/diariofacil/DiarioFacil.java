@@ -137,7 +137,7 @@ public class DiarioFacil {
         System.out.println("5 - Ultima compra");
         System.out.println("6 - Mantenimiento clientes");
         System.out.println("7 - Mantenimiento productos");
-        System.out.println("8 - Salir");
+        System.out.println("9 - Salir");
 
         try {
             switch (scan.nextInt()) {
@@ -166,6 +166,10 @@ public class DiarioFacil {
                     menuAdmin();
                     break;
                 case 8:
+                    new MantenimientoProveedor().mantenimientoProveedor(proveedores);
+                    menuAdmin();
+                    break;
+                case 9:
                     System.exit(0);
                     break;
                 default:

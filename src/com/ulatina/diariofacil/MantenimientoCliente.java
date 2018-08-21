@@ -257,28 +257,24 @@ public class MantenimientoCliente {
     private static void modificarProducto(List<Producto> productos, Producto p) {
         Scanner scan = new Scanner(System.in);
 
-        String nombre;
-        int precio;
-        String descripcion;
-
         System.out.println("1 - Modificar de nombre producto");
-        nombre = scan.nextLine();
         System.out.println("2 - Modificar de precio producto");
-        precio = scan.nextInt();
         System.out.println("3 - Modificar de descripcion producto");
-        descripcion = scan.next();
 
         int opcion = scan.nextInt();
         scan.nextLine();
         try {
             switch (opcion) {
                 case 1:
+                    System.out.print("Nombre: ");
                     p.setNombre(scan.nextLine());
                     break;
                 case 2:
+                    System.out.print("Precio: ");
                     p.setPrecio(scan.nextInt());
                     break;
                 case 3:
+                    System.out.print("Descripcion: ");
                     p.setDescripcion(scan.next());
                     break;
             }
