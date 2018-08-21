@@ -38,9 +38,6 @@ public class Tester {
         router rout1 = new router ( "Sony", "router de largo alcance", 200,10);
         Modem mo1 = new Modem ( "Dell", "Modem para oficina", 200,10);
         
-        double precioCombo1 = com1.getPrecio() + rout1.getPrecio();
-        double precioCombo2 = com1.getPrecio() + rout1.getPrecio() + mo1.getPrecio();
-        double precioCombo3 = rout1.getPrecio() + mo1.getPrecio();
         
         cb.agregarProductos(com1);
         cb.agregarProductos(rout1);
