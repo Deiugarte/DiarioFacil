@@ -10,6 +10,7 @@ import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -462,6 +463,11 @@ public class DiarioFacil {
 
     private void agregarProducto(String producto, List<Item> items) throws NumberFormatException {
         Scanner scan = new Scanner(System.in);
+        int i = 0;
+        for (Producto a : productos) {
+            i++;
+            System.out.println(i + ". " + a.toString());
+        }
         System.out.println("Cuantos productos desea:");
         int cantidad = parseInt(scan.nextLine());
         Producto p = obtenerProductoPorId(parseInt(producto));
