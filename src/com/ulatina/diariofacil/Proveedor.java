@@ -5,25 +5,33 @@
  */
 package com.ulatina.diariofacil;
 
-/**
- *
- * @author carli
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class Proveedor {
 
-    String nombreEmpresa;
-    String nombreRepresentante;
-    String email;
-    int telefono;
+    List<Producto> listProductos = new ArrayList<>();
+    private String nombreEmpresa;
+    private String personaEncargada;
+    private String correo;
+    private int telefono;
 
     public Proveedor() {
     }
 
-    public Proveedor(String nombreEmpresa, String nombreRepresentante, String email, int telefono) {
+    public Proveedor(String nombreEmpresa, String personaEncargada, String correo, int telefono) {
         this.nombreEmpresa = nombreEmpresa;
-        this.nombreRepresentante = nombreRepresentante;
-        this.email = email;
+        this.personaEncargada = personaEncargada;
+        this.correo = correo;
         this.telefono = telefono;
+    }
+
+    public List<Producto> getListProductos() {
+        return listProductos;
+    }
+
+    public void setListProductos(List<Producto> listProductos) {
+        this.listProductos = listProductos;
     }
 
     public String getNombreEmpresa() {
@@ -34,20 +42,20 @@ public class Proveedor {
         this.nombreEmpresa = nombreEmpresa;
     }
 
-    public String getNombreRepresentante() {
-        return nombreRepresentante;
+    public String getPersonaEncargada() {
+        return personaEncargada;
     }
 
-    public void setNombreRepresentante(String nombreRepresentante) {
-        this.nombreRepresentante = nombreRepresentante;
+    public void setPersonaEncargada(String personaEncargada) {
+        this.personaEncargada = personaEncargada;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public int getTelefono() {
@@ -58,4 +66,8 @@ public class Proveedor {
         this.telefono = telefono;
     }
 
+    @Override
+    public String toString() {
+        return "["+nombreEmpresa +"] "+ " Persona encargada: " + personaEncargada + " Correo electrónico: " + correo + " Tel: (506)" + telefono + "\n";
+    }
 }
