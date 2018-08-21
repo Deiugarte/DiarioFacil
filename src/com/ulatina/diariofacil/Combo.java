@@ -27,17 +27,22 @@ public class Combo extends Producto {
         return numeroCombo;
     }
     
-    public Combo(){
-        super();
-    }
+//    public Combo(){
+//        super();
+//    }
     public Combo(double precio) {
+        this.setPrecio(precio);
         this.precio = precio;
         this.consecutivo = getNumeroCombo();
+        this.id = this.consecutivo;
+        this.descripcion = "Combo";
+        this.nombre = "combito";
     }
     public int getConsecutivo() {
         return consecutivo;
     }
     public void setConsecutivo(int consecutivo) {
+        this.id = consecutivo;
         this.consecutivo = consecutivo;
     }
     public double getTotal() {

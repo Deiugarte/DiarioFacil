@@ -5,12 +5,10 @@
  */
 package com.ulatina.diariofacil;
 
-
 import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.InputMismatchException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -158,7 +156,7 @@ public class DiarioFacil {
                     verUltimaCompra();
                     break;
                 case 6:
-                     mantenimientoInicio(usuarios);
+                    mantenimientoInicio(usuarios);
                     //new MantenimientoCliente().mantenimientoInicio(usuarios);
                     menuAdmin();
                     break;
@@ -443,8 +441,16 @@ public class DiarioFacil {
         String producto;
         List<Item> items = new ArrayList<>();
         while (true) {
+            System.out.println("Desea un combo o un Producto, C para combo, producto por defecto");
+            producto = scan.nextLine();
+            boolean productoCombo = producto.equals("c");
+            if (productoCombo) {
+                imprimirCombos();
+
+            } else {
+                verProductos();
+            }
             System.out.println("Digite el id de producto que desea comprar, salir para cancelar la orden o comprar para generar la compra");
-            verProductos();
             producto = scan.nextLine();
             try {
                 if (salir(producto)) {
@@ -453,10 +459,17 @@ public class DiarioFacil {
                 } else if (producto.equals("comprar")) {
                     comprarCarrito(items);
 
-                } else if (!existeProducto(parseInt(producto))) {
+                } else if (!existeProducto(parseInt(producto)) && !productoCombo) {
                     System.out.println("Producto no valido");
+                } else if (!existeCombo(parseInt(producto)) && productoCombo) {
+                    System.out.println("Combo no valido");
                 } else {
-                    agregarProducto(producto, items);
+                    if (productoCombo) {
+                        agregarCombo(producto, items);
+                    } else {
+                        agregarProducto(producto, items);
+
+                    }
 
                 }
             } catch (NumberFormatException e) {
@@ -486,6 +499,17 @@ public class DiarioFacil {
         } else {
             System.out.println("Lo sentimos actualmente nuestro inventario del producto es de " + p.getInventario());
         }
+    }
+
+    private void agregarCombo(String producto, List<Item> items) throws NumberFormatException {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Cuantos combos desea:");
+        int cantidad = parseInt(scan.nextLine());
+        Producto p = obtenerComboPorId(parseInt(producto));
+        Item item = new Item(cantidad, p, cantidad);
+        items.add(item);
+        System.out.println("Combo agregado: ");
+        System.out.println(item + "\n\n");
     }
 
     private void comprarCarrito(List<Item> items) {
@@ -581,6 +605,7 @@ public class DiarioFacil {
     public void addCombo(Combo c) {
         combos.add(c);
     }
+
     //este verCombos no se sabe su procedencia 
     public void verCombos() {
         System.out.println("---------------Combos---------------");
@@ -594,8 +619,17 @@ public class DiarioFacil {
         }
         System.out.println("-------------------------------------");
     }
+
+    private void imprimirCombos() {
+        System.out.println("---------------Combos---------------");
+        combos.forEach(combo -> {
+            System.out.println(combo);
+        });
+        System.out.println("-------------------------------------");
+    }
+
     //menu del combo donde se puede ver y escoger todos los combos que hay
-    public void menuCombo(){
+    public void menuCombo() {
         Scanner scan = new Scanner(System.in);
         combos.forEach(combo -> {
             System.out.println(combo);
@@ -604,9 +638,9 @@ public class DiarioFacil {
         System.out.println("----------------------------------");
         System.out.println("Escoja un combo de las 3 opciones");
         System.out.println("Digite 4 para salir");
-        
+
         try {
-            switch (scan.nextInt()){
+            switch (scan.nextInt()) {
                 case 1:
                     System.out.println("Escogio el combo 1");
                     menuUsuario();
@@ -633,7 +667,6 @@ public class DiarioFacil {
         }
     }
 
-
     public void verProductos() {
         productos.forEach(producto -> {
             System.out.println(producto);
@@ -647,6 +680,24 @@ public class DiarioFacil {
             }
         }
         return false;
+    }
+
+    private boolean existeCombo(int codigo) {
+        for (Producto producto : combos) {
+            if (producto.getid() == codigo) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Producto obtenerComboPorId(int id) {
+        for (Producto producto : combos) {
+            if (producto.getid() == id) {
+                return producto;
+            }
+        }
+        return null;
     }
 
     private Producto obtenerProductoPorId(int id) {
@@ -687,6 +738,7 @@ public class DiarioFacil {
         System.out.println("Gracias por su compra");
         ((Usuario) this.usuarioActual).setUltimaOrden(orden.getId());
         actualizarUsuario((Usuario) this.usuarioActual);
+        verificarInventario();
         if (esAdmin(usuarioActual.getCedula())) {
             menuAdmin();
         } else {
@@ -719,9 +771,9 @@ public class DiarioFacil {
     public void addOrden(Usuario u) {
         ordenes.add(new Orden(nextConsOrd(), u));
     }
-    
+
     //mant cliente
-        public void mantenimientoInicio(List<Persona> usuarios) {
+    public void mantenimientoInicio(List<Persona> usuarios) {
         Scanner scan = new Scanner(System.in);
 
         System.out.println("Digite 1 Buscar el cliente");
@@ -874,5 +926,11 @@ public class DiarioFacil {
         return fecha.get(Calendar.DAY_OF_MONTH) + "/"
                 + fecha.get(Calendar.MONTH) + "/"
                 + fecha.get(Calendar.YEAR);
+    }
+
+    private void verificarInventario() {
+        for (Producto producto : productos) {
+            if (producto.inventario <5 ) SendEmail.pedirProvedor(producto.nombre);
+        }
     }
 }

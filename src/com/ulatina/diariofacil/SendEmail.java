@@ -20,7 +20,7 @@ import javax.mail.internet.MimeMessage;
  */
 public class SendEmail {
 
-    public static void pedirProvedor() {
+    public static void pedirProvedor(String nombreProducto) {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
@@ -42,13 +42,11 @@ public class SendEmail {
             message.setFrom(new InternetAddress("DF@diarioFacil.com"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse("dugarte@pernix.cr"));
-            message.setSubject("Necesitamos mas Producto");
+            message.setSubject("Necesitamos mas " + nombreProducto);
             message.setText("Hola ,"
                     + "\n\n Necesitamos que visite nuestra tienda para resuplir el inventario!");
 
             Transport.send(message);
-
-            System.out.println("Done");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);

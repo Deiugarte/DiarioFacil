@@ -11,11 +11,11 @@ package com.ulatina.diariofacil;
  */
 public abstract class Producto {
 
-    private int id;
-    private String nombre;
-    private String descripcion;
-    private double precio;
-    private int inventario;
+    protected int id;
+    protected String nombre;
+    protected String descripcion;
+    protected double precio;
+    protected int inventario;
 
     public Producto(String nombre, String descripcion, double precio, int inventario) {
         
@@ -28,6 +28,12 @@ public abstract class Producto {
 
     public Producto() {
     }
+
+    public Producto(int id) {
+        this.id = id;
+    }
+    
+    
 
     private static int idConsecutivo = 0;
     //consecutivo para el combo
