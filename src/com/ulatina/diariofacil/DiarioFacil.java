@@ -135,6 +135,7 @@ public class DiarioFacil {
         System.out.println("5 - Ultima compra");
         System.out.println("6 - Mantenimiento clientes");
         System.out.println("7 - Mantenimiento productos");
+        System.out.println("8 - Mantenimineto proveedores");
         System.out.println("9 - Salir");
 
         try {
