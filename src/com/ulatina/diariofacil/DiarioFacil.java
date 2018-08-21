@@ -79,9 +79,10 @@ public class DiarioFacil {
         System.out.println("Digite una opcion para continuar.");
         System.out.println("1 - Ver promociones");
         System.out.println("2 - Ver combos");
-        System.out.println("3 - Comprar");
-        System.out.println("4 - Ultima compra");
-        System.out.println("5 - Salir");
+        System.out.println("3 - Historial ordenes");
+        System.out.println("4 - Comprar");
+        System.out.println("5 - Ultima compra");
+        System.out.println("6 - Salir");
 
         try {
             switch (scan.nextInt()) {
@@ -92,12 +93,16 @@ public class DiarioFacil {
                     menuCombo();
                     break;
                 case 3:
-                    comprar();
+                    listarOrdenes(usuarioActual.getCedula());
+                    menuUsuario();
                     break;
                 case 4:
-                    verUltimaCompra();
+                    comprar();
                     break;
                 case 5:
+                    verUltimaCompra();
+                    break;
+                case 6:
                     System.exit(0);
                     break;
                 default:
@@ -125,11 +130,12 @@ public class DiarioFacil {
         System.out.println("Digite una opcion para continuar.");
         System.out.println("1 - Ver promociones");
         System.out.println("2 - Ver combos");
-        System.out.println("3 - Comprar");
-        System.out.println("4 - Ultima compra");
-        System.out.println("5 - Mantenimiento usuarios");
-        System.out.println("6 - Mantenimiento productos");
-        System.out.println("7 - Salir");
+        System.out.println("3 - Historial ordenes");
+        System.out.println("4 - Comprar");
+        System.out.println("5 - Ultima compra");
+        System.out.println("6 - Mantenimiento clientes");
+        System.out.println("7 - Mantenimiento productos");
+        System.out.println("8 - Salir");
 
         try {
             switch (scan.nextInt()) {
@@ -140,20 +146,24 @@ public class DiarioFacil {
                     verCombos();
                     break;
                 case 3:
-                    comprar();
+                    listarOrdenes(usuarioActual.getCedula());
+                    menuAdmin();
                     break;
                 case 4:
-                    verUltimaCompra();
+                    comprar();
                     break;
                 case 5:
+                    verUltimaCompra();
+                    break;
+                case 6:
                     new MantenimientoCliente().mantenimientoInicio(usuarios);
                     menuAdmin();
                     break;
-                case 6:
+                case 7:
                     MantenimientoCliente.mantenimientoProducto(productos);
                     menuAdmin();
                     break;
-                case 7:
+                case 8:
                     System.exit(0);
                     break;
                 default:
@@ -214,13 +224,26 @@ public class DiarioFacil {
      * Muestra las Promociones basado en la lista de productos
      */
     public void obtenerPromociones() {
-        System.out.println("---------------Promociones---------------");
-        productos.forEach(producto -> {
-            if (producto instanceof IDescuento) {
-                System.out.println(producto);
+        List<Orden> ordenesUsuario = new ArrayList<>();
+
+        for (Orden o : ordenes) {
+            if (o.getUsuario().getCedula().equals(usuarioActual.getCedula())) {
+                ordenesUsuario.add(o);
             }
-        });
-        System.out.println("-------------------------------------");
+        }
+
+        if (ordenesUsuario.size() > 5) {
+            System.out.println("---------------Promociones---------------");
+            productos.forEach(producto -> {
+                if (producto instanceof IDescuento) {
+                    System.out.println(producto);
+                }
+            });
+            System.out.println("-------------------------------------");
+        } else {
+            System.out.println("Las promociones son solo para clientes frecuentes");
+        }
+
         if (esAdmin(usuarioActual.getCedula())) {
             menuAdmin();
         } else {
